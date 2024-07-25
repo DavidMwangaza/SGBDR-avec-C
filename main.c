@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "sgbdr.h"
 
 // Fonction principale pour afficher le menu et gérer les interactions
 int main() {
@@ -18,13 +21,13 @@ int main() {
 
         switch (choice) {
             case 1:
-                cree_table_donnees();
+                creer_table();
                 break;
             case 2:
-                insertion_donnees();
+                inserer_donnees();
                 break;
             case 3:
-                selection_donnees();
+                selectionner_donnees();
                 break;
             case 4:
                 afficher_donnees();
@@ -33,7 +36,7 @@ int main() {
                 supprimer_donnees();
                 break;
             case 6:
-                mise_a_jour_donnees();
+                mettre_a_jour_donnees();
                 break;
             case 7:
                 trier_donnees();
