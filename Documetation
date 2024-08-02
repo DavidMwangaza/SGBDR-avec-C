@@ -1,0 +1,162 @@
+### Documentation du Projet : Implémentation d'un Mini SGBDR en Langage C
+
+---
+
+## Table des Matières
+1. [Introduction](#introduction)
+2. [Structure du Projet](#structure-du-projet)
+3. [Instructions d'Utilisation](#instructions-dutilisation)
+    1. [Création de Table](#création-de-table)
+    2. [Insertion de Données](#insertion-de-données)
+    3. [Sélection de Données](#sélection-de-données)
+    4. [Affichage de Données](#affichage-de-données)
+    5. [Suppression de Données](#suppression-de-données)
+    6. [Mise à Jour de Données](#mise-à-jour-de-données)
+4. [Architecture du Code](#architecture-du-code)
+5. [Tests et Validation](#tests-et-validation)
+6. [Conclusion](#conclusion)
+
+---
+
+## Introduction
+Ce projet a pour objectif d'implémenter un mini SGBDR (Système de Gestion de Base de Données Relationnelle) en langage C, permettant de mettre en pratique des connaissances en structures de données et en algorithmes.
+Le SGBDR supporte des fonctionnalités de base comme la création de tables, l'insertion, la sélection, l'affichage, la suppression et la mise à jour de données.
+
+## Structure du Projet
+Le projet est divisé en plusieurs modules pour faciliter la gestion et l'organisation du code :
+
+1. *main.c* : Point d'entrée du programme.
+2. *table.h / table.c* : Gestion des tables et des champs.
+3. *insert.h / insert.c* : Insertion de données.
+4. *select.h / select.c* : Sélection de données.
+5. *display.h / display.c* : Affichage de données.
+6. *delete.h / delete.c* : Suppression de données.
+7. *update.h / update.c* : Mise à jour de données.
+8. *util.h / util.c* : Fonctions utilitaires.
+
+## Instructions d'Utilisation
+
+### Création de Table
+Pour créer une table, utilisez la commande suivante :
+
+plaintext
+CREER TABLE <nom_table> (<champ1> <type1>, <champ2> <type2>, ...);
+
+
+*Exemple :*
+plaintext
+CREER TABLE etudiants (id INT, nom VARCHAR(100), age INT);
+
+
+### Insertion de Données
+Pour insérer des données dans une table, utilisez la commande suivante :
+
+plaintext
+INSERER DANS <nom_table> VALEURS (<valeur1>, <valeur2>, ...);
+
+
+*Exemple :*
+plaintext
+INSERER DANS etudiants VALEURS (1, 'Alice', 22);
+
+
+### Sélection de Données
+Pour sélectionner des données spécifiques d'une table, utilisez la commande suivante :
+
+plaintext
+SELECTIONNER <champs> DE <nom_table> OU <condition>;
+
+
+*Exemple :*
+plaintext
+SELECTIONNER * DE etudiants OU age > 20;
+
+
+### Affichage de Données
+Pour afficher toutes les données d'une table, utilisez la commande suivante :
+
+plaintext
+AFFICHER DE <nom_table>;
+
+
+*Exemple :*
+plaintext
+AFFICHER DE etudiants;
+
+
+### Suppression de Données
+Pour supprimer des données d'une table, utilisez la commande suivante :
+
+plaintext
+SUPPRIMER DE <nom_table> OU <condition>;
+
+
+*Exemple :*
+plaintext
+SUPPRIMER DE etudiants OU id = 1;
+
+
+### Mise à Jour de Données
+Pour mettre à jour des données existantes dans une table, utilisez la commande suivante :
+
+plaintext
+METTRE A JOUR <nom_table> SET <champ> = <nouvelle_valeur> OU <condition>;
+
+
+*Exemple :*
+plaintext
+METTRE A JOUR etudiants SET age = 23 OU nom = 'Alice';
+
+
+## Architecture du Code
+
+### main.c
+Le point d'entrée du programme, où les commandes utilisateur sont lues et traitées.
+
+### table.h / table.c
+- *table.h* : Déclarations des structures de données et des fonctions pour la gestion des tables.
+- *table.c* : Implémentation des fonctions pour créer des tables et gérer leurs champs.
+
+### insert.h / insert.c
+- *insert.h* : Déclarations des fonctions pour l'insertion de données.
+- *insert.c* : Implémentation des fonctions pour insérer des données dans les tables.
+
+### select.h / select.c
+- *select.h* : Déclarations des fonctions pour la sélection de données.
+- *select.c* : Implémentation des fonctions pour sélectionner des données avec des conditions spécifiques.
+
+### display.h / display.c
+- *display.h* : Déclarations des fonctions pour l'affichage de données.
+- *display.c* : Implémentation des fonctions pour afficher les données de manière formatée.
+
+### delete.h / delete.c
+- *delete.h* : Déclarations des fonctions pour la suppression de données.
+- *delete.c* : Implémentation des fonctions pour supprimer des données en fonction de conditions spécifiques.
+
+### update.h / update.c
+- *update.h* : Déclarations des fonctions pour la mise à jour de données.
+- *update.c* : Implémentation des fonctions pour mettre à jour des données existantes dans les tables.
+
+### util.h / util.c
+- *util.h* : Déclarations des fonctions utilitaires (gestion des chaînes de caractères, etc.).
+- *util.c* : Implémentation des fonctions utilitaires.
+
+## Tests et Validation
+Des tests unitaires et d'intégration doivent être réalisés pour chaque fonctionnalité du SGBDR.
+
+### Tests Unitaires
+- Tester la création de tables et de champs.
+- Tester l'insertion de données avec des cas simples et complexes.
+- Tester la sélection de données avec différentes conditions.
+- Tester l'affichage des données pour s'assurer qu'elles sont formatées correctement.
+- Tester la suppression de données avec différentes conditions.
+- Tester la mise à jour des données avec des cas simples et complexes.
+
+### Tests d'Intégration
+- Intégrer toutes les fonctionnalités et s'assurer qu'elles fonctionnent correctement ensemble.
+- Vérifier que les commandes en français sont correctement interprétées et exécutées.
+
+## Conclusion
+Ce projet permet aux étudiants de mettre en pratique leurs connaissances en langage C, en structures de données et en algorithmes.
+En implémentant un mini SGBDR, ils développent des compétences en conception de systèmes, en gestion de données et en collaboration de groupe.
+Les fonctionnalités de base et l'architecture modulaire du code fournissent une base solide pour des améliorations futures et des extensions du projet.
