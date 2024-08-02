@@ -1,4 +1,4 @@
-Pour compiller:
+Pour compiler:
 
 on commence par compiler le deux fichier en meme temps
 
