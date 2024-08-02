@@ -1,162 +1,110 @@
-### Documentation du Projet : Implémentation d'un Mini SGBDR en Langage C
+Documentation du Mini SGBDR en C
+Introduction
+Ce document décrit les différentes parties d'une application de gestion de base de données simple écrite en C.
+Il permet à un utilisateur de créer des tables, d'insérer, de sélectionner, d'afficher, de supprimer, de mettre à jour, de trier et de joindre des données.
 
----
-
-## Table des Matières
-1. [Introduction](#introduction)
-2. [Structure du Projet](#structure-du-projet)
-3. [Instructions d'Utilisation](#instructions-dutilisation)
-    1. [Création de Table](#création-de-table)
-    2. [Insertion de Données](#insertion-de-données)
-    3. [Sélection de Données](#sélection-de-données)
-    4. [Affichage de Données](#affichage-de-données)
-    5. [Suppression de Données](#suppression-de-données)
-    6. [Mise à Jour de Données](#mise-à-jour-de-données)
-4. [Architecture du Code](#architecture-du-code)
-5. [Tests et Validation](#tests-et-validation)
-6. [Conclusion](#conclusion)
-
----
-
-## Introduction
-Ce projet a pour objectif d'implémenter un mini SGBDR (Système de Gestion de Base de Données Relationnelle) en langage C, permettant de mettre en pratique des connaissances en structures de données et en algorithmes.
-Le SGBDR supporte des fonctionnalités de base comme la création de tables, l'insertion, la sélection, l'affichage, la suppression et la mise à jour de données.
-
-## Structure du Projet
-Le projet est divisé en plusieurs modules pour faciliter la gestion et l'organisation du code :
-
-1. *main.c* : Point d'entrée du programme.
-2. *table.h / table.c* : Gestion des tables et des champs.
-3. *insert.h / insert.c* : Insertion de données.
-4. *select.h / select.c* : Sélection de données.
-5. *display.h / display.c* : Affichage de données.
-6. *delete.h / delete.c* : Suppression de données.
-7. *update.h / update.c* : Mise à jour de données.
-8. *util.h / util.c* : Fonctions utilitaires.
-
-## Instructions d'Utilisation
-
-### Création de Table
-Pour créer une table, utilisez la commande suivante :
-
-plaintext
-CREER TABLE <nom_table> (<champ1> <type1>, <champ2> <type2>, ...);
+Constants and Structures
+Constantes
 
 
-*Exemple :*
-plaintext
-CREER TABLE etudiants (id INT, nom VARCHAR(100), age INT);
+#define MAX_TABLES 10
+#define MAX_FIELDS 10
+#define MAX_FIELD_NAME 20
+#define MAX_FIELD_TYPE 10
+#define MAX_RECORDS 100
+MAX_TABLES : Maximum de tables pouvant être créées.
+MAX_FIELDS : Maximum de champs dans une table.
+MAX_FIELD_NAME : Taille maximale pour le nom d'un champ.
+MAX_FIELD_TYPE : Taille maximale pour le type d'un champ.
+MAX_RECORDS : Maximum de lignes pouvant être insérées dans une table.
+
+Structures
+Champ
+
+typedef struct {
+    char nom[MAX_FIELD_NAME];
+    char type[MAX_FIELD_TYPE];
+} Champ;
+Représente un champ dans une table, en stockant le nom et le type (e.g., entier, chaîne).
+
+Table
+
+typedef struct {
+    char nom[MAX_FIELD_NAME];
+    Champ champs[MAX_FIELDS];
+    int nombre_champs;
+    int nombre_enrestre;
+    char donnees[MAX_RECORDS][MAX_FIELDS][MAX_FIELD_TYPE];
+} Table;
+Représente une table, comprenant son nom, les champs qu'elle contient, le nombre de champs, le nombre d'enregistrements, et un tableau pour stocker les données de chaque enregistrement.
+
+Variables Externes
 
 
-### Insertion de Données
-Pour insérer des données dans une table, utilisez la commande suivante :
+extern Table tables[MAX_TABLES];
+extern int nombre_tables;
+tables : Un tableau global qui stocke toutes les tables créées.
+nombre_tables : Compte le nombre de tables créées.
+Fonctions
+1. void creer_table()
+Crée une nouvelle table avec des champs définis par l'utilisateur.
 
-plaintext
-INSERER DANS <nom_table> VALEURS (<valeur1>, <valeur2>, ...);
+Description :
+Cette fonction demande à l'utilisateur de fournir le nom de la table, le nombre de champs, et les détails de chaque champ. Elle vérifie également si le nombre maximal de tables a été atteint.
 
+2. void inserer_donnees()
+Insère de nouvelles données dans une table existante.
 
-*Exemple :*
-plaintext
-INSERER DANS etudiants VALEURS (1, 'Alice', 22);
+Description :
+Une fois qu'une table est choisie par l'utilisateur, cette fonction permet d'entrer les données pour chaque champ. Elle vérifie que le nombre maximum d'enregistrements n'est pas dépassé.
 
+3. void selectionner_donnees()
+Sélectionne et affiche les données d'une table en fonction d'une condition.
 
-### Sélection de Données
-Pour sélectionner des données spécifiques d'une table, utilisez la commande suivante :
+Description :
+Cette fonction demande à l'utilisateur de spécifier une condition (e.g., id=5).
+Elle parcourt les enregistrements de la table choisie et affiche ceux qui correspondent à la condition.
 
-plaintext
-SELECTIONNER <champs> DE <nom_table> OU <condition>;
+4. void afficher_donnees()
+Affiche toutes les données d'une table spécifiée.
 
+Description :
+L'utilisateur sélectionne une table, et la fonction affiche les noms des champs et toutes les lignes de données stockées dans cette table.
 
-*Exemple :*
-plaintext
-SELECTIONNER * DE etudiants OU age > 20;
+5. void supprimer_donnees()
+Supprime des données d'une table en fonction d'une condition.
 
+Description :
+L'utilisateur choisit une table et spécifie une condition pour la suppression.
+La fonction parcourt la table, supprime toutes les lignes qui correspondent à la condition, et déplace les lignes suivantes pour combler l'espace.
 
-### Affichage de Données
-Pour afficher toutes les données d'une table, utilisez la commande suivante :
+6. void mettre_a_jour_donnees()
+Met à jour des données dans une table déterminée par une condition.
 
-plaintext
-AFFICHER DE <nom_table>;
+Description :
+La fonction permet à l'utilisateur de sélectionner une table et de saisir une condition. Les enregistrements correspondants sont mis à jour avec de nouvelles valeurs fournies par l'utilisateur.
 
+7. void trier_donnees()
+Trie les enregistrements d'une table basée sur un champ spécifié.
 
-*Exemple :*
-plaintext
-AFFICHER DE etudiants;
+Description :
+L'utilisateur choisit une table et un champ sur lequel trier.
+La fonction utilise un algorithme de tri (par exemple, tri à bulles) pour organiser les enregistrements en fonction des valeurs du champ choisi.
 
+8. void joindre_tables()
+Permet de joindre deux tables sur une condition spécifiée.
 
-### Suppression de Données
-Pour supprimer des données d'une table, utilisez la commande suivante :
+Description :
+L'utilisateur sélectionne deux tables et une condition de jointure.
+La fonction affiche les enregistrements des deux tables qui satisfont la condition.
 
-plaintext
-SUPPRIMER DE <nom_table> OU <condition>;
+Utilisation
+L'utilisateur interagit avec le programme via un menu console. 
+Les choix sont traités par une boucle qui continue de s'exécuter jusqu'à ce que l'utilisateur décide de quitter en entrant 0.
+À chaque étape, des entrées utilisateur sont demandées pour déterminer les actions à réaliser.
 
-
-*Exemple :*
-plaintext
-SUPPRIMER DE etudiants OU id = 1;
-
-
-### Mise à Jour de Données
-Pour mettre à jour des données existantes dans une table, utilisez la commande suivante :
-
-plaintext
-METTRE A JOUR <nom_table> SET <champ> = <nouvelle_valeur> OU <condition>;
-
-
-*Exemple :*
-plaintext
-METTRE A JOUR etudiants SET age = 23 OU nom = 'Alice';
-
-
-## Architecture du Code
-
-### main.c
-Le point d'entrée du programme, où les commandes utilisateur sont lues et traitées.
-
-### table.h / table.c
-- *table.h* : Déclarations des structures de données et des fonctions pour la gestion des tables.
-- *table.c* : Implémentation des fonctions pour créer des tables et gérer leurs champs.
-
-### insert.h / insert.c
-- *insert.h* : Déclarations des fonctions pour l'insertion de données.
-- *insert.c* : Implémentation des fonctions pour insérer des données dans les tables.
-
-### select.h / select.c
-- *select.h* : Déclarations des fonctions pour la sélection de données.
-- *select.c* : Implémentation des fonctions pour sélectionner des données avec des conditions spécifiques.
-
-### display.h / display.c
-- *display.h* : Déclarations des fonctions pour l'affichage de données.
-- *display.c* : Implémentation des fonctions pour afficher les données de manière formatée.
-
-### delete.h / delete.c
-- *delete.h* : Déclarations des fonctions pour la suppression de données.
-- *delete.c* : Implémentation des fonctions pour supprimer des données en fonction de conditions spécifiques.
-
-### update.h / update.c
-- *update.h* : Déclarations des fonctions pour la mise à jour de données.
-- *update.c* : Implémentation des fonctions pour mettre à jour des données existantes dans les tables.
-
-### util.h / util.c
-- *util.h* : Déclarations des fonctions utilitaires (gestion des chaînes de caractères, etc.).
-- *util.c* : Implémentation des fonctions utilitaires.
-
-## Tests et Validation
-Des tests unitaires et d'intégration doivent être réalisés pour chaque fonctionnalité du SGBDR.
-
-### Tests Unitaires
-- Tester la création de tables et de champs.
-- Tester l'insertion de données avec des cas simples et complexes.
-- Tester la sélection de données avec différentes conditions.
-- Tester l'affichage des données pour s'assurer qu'elles sont formatées correctement.
-- Tester la suppression de données avec différentes conditions.
-- Tester la mise à jour des données avec des cas simples et complexes.
-
-### Tests d'Intégration
-- Intégrer toutes les fonctionnalités et s'assurer qu'elles fonctionnent correctement ensemble.
-- Vérifier que les commandes en français sont correctement interprétées et exécutées.
-
-## Conclusion
-Ce projet permet aux étudiants de mettre en pratique leurs connaissances en langage C, en structures de données et en algorithmes.
-En implémentant un mini SGBDR, ils développent des compétences en conception de systèmes, en gestion de données et en collaboration de groupe.
-Les fonctionnalités de base et l'architecture modulaire du code fournissent une base solide pour des améliorations futures et des extensions du projet.
+Limitations et Améliorations
+Validation des entrées : Améliorer la validation des entrées pour éviter les erreurs d'overflow et les entrées inappropriées.
+Gestion des types : Étendre le support des types pour inclure des entiers et des chaînes séparément.
+Fonctionnalités de recherche avancées : Améliorer la logique de condition pour accepter des requêtes plus complexes.
+Interface utilisateur : Envisager une interface graphique ou une API pour une utilisation plus conviviale
