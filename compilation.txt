@@ -1,6 +1,6 @@
-pour compiller:
+Pour compiller:
 
-on commence par compiler le deux fichier en meme temp
+on commence par compiler le deux fichier en meme temps
 
 1. gcc -o sgbdr main.c sgbdr_operation.c
 2. ./sgbdr
